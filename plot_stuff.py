@@ -1,0 +1,7 @@
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(EArray,k3BodyAttach,label='3 body')
+ax.plot(EArray,k2BodyAttach,label='2 body')
+ax.legend(loc=1)
+ax.set_xscale('log')
+plt.show()
