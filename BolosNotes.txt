@@ -1,0 +1,8 @@
+I want starting and stopping points for my EField. I also want n number of points. And I want the point values of the EField to be exponentially increasing. How to accomplish this?
+
+The very first question to ask is where the cross section data starts and stops. That's not a straightforward question. Cross sections are a function of the electron energy. For a given electric field, electrons will have a distribution of energy. 
+
+Most straightforward way is to use Jannis's starting and stopping electric fields and his # of points. Well that's easy...he has 100 points.
+
+Starting EField: 2.414323855084169554e+04
+Stopping EField: 3.380053397117837518e+07
