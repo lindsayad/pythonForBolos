@@ -6,3 +6,5 @@ Most straightforward way is to use Jannis's starting and stopping electric field
 
 Starting EField: 2.414323855084169554e+04
 Stopping EField: 3.380053397117837518e+07
+
+Bolos and Bolsig have excellent agreement for air. And their agreement is that once we are above the breakdown field or above the ionization threshold, alpha grows linearly with the electric field. It certainly does not plateau like an exp(-A/E) function!!!

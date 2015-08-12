@@ -36,7 +36,7 @@ en_fin = 60.0
 en_bins = 200
 gr = grid.QuadraticGrid(en_start,en_fin,en_bins)
 boltzmann = solver.BoltzmannSolver(gr)
-with open('/home/lindsayad/bolos/LXCat-June2013.txt') as fp:
+with open('/home/alexlindsay/bolos/LXCat-June2013.txt') as fp:
     processes = parser.parse(fp)
 boltzmann.load_collisions(processes)
 boltzmann.target['N2'].density = xN2
@@ -82,4 +82,19 @@ f = D_Path + "td_air.txt"
 with open(f,'w') as write_file:
     for i in range(0,nEf):
         write_file.write('{0:.18e} {1:.18e} {2:.18e} {3:.18e} {4:.18e}\n'.format(EArray[i], mu[i], Diff[i], alpha[i], eta[i]))
+
+# D_Path = '/home/alexlindsay/bolos/'
+# t_vars = ['mob','diff','alpha','eta','mean_en']
+# file_list = [D_Path + t_var + '.txt' for t_var in t_vars]
+# file_list = OrderedDict.fromkeys(file_list)
+# t_vars = OrderedDict.fromkeys(t_vars)
+# t_vars['mob'] = mu
+# t_vars['diff'] = Diff
+# t_vars['alpha'] = alpha
+# t_vars['eta'] = eta
+# t_vars['mean_en'] = mean_energy
+# for f,t_var in zip(file_list.keys(),t_vars.keys()):
+#     with open(f,'w') as write_file:
+#         for i in range(0,nEf):
+#             write_file.write('{0:.18e}, {1:.18e}\n'.format(EArray[i],t_vars[t_var][i]))
     write_file.closed
