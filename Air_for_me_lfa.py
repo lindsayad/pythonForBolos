@@ -36,7 +36,7 @@ en_fin = 60.0
 en_bins = 200
 gr = grid.QuadraticGrid(en_start,en_fin,en_bins)
 boltzmann = solver.BoltzmannSolver(gr)
-with open('/home/lindsayad/bolos/LXCat-June2013.txt') as fp:
+with open('/home/alexlindsay/bolos/LXCat-June2013.txt') as fp:
     processes = parser.parse(fp)
 boltzmann.load_collisions(processes)
 boltzmann.target['N2'].density = xN2
@@ -66,7 +66,7 @@ for i in range(0,nEf):
     kN2elastic = d[0]
     kO2elastic = d[1]
     elastic[i] = 1.0/(mu[i]*En)*(xN2*kN2elastic+xO2*kO2elastic)
-D_Path = '/home/lindsayad/gdrive/programming/usefulScripts/python/'
+D_Path = '/home/alexlindsay/bolos/'
 t_vars = ['mob','diff','alpha','eta','mean_en']
 file_list = [D_Path + t_var + '.txt' for t_var in t_vars]
 file_list = OrderedDict.fromkeys(file_list)
