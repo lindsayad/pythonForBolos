@@ -102,6 +102,7 @@ axLin.set_xticks(ticks)
 axLin.set_xticklabels(ticklabels)
 axLin.set_xlabel("Mean energy (eV)")
 axLin.set_ylabel("Ionization rate coefficient (m$^3$/s)")
+figLin.savefig('/home/lindsayad/Pictures/overestimate_alpha.eps',format='eps')
 # axLog.legend(loc=0)
 plt.show()
 
