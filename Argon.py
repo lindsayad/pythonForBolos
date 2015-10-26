@@ -82,8 +82,8 @@ for i in range(len(alpha)):
     if alpha[i] < 1e-15:
         alpha[i] = 0.
 
-# mean_energy = np.insert(mean_energy,0,0.)
-# alpha = np.insert(alpha,0,0.)
+mean_energy = np.insert(mean_energy,0,0.)
+alpha = np.insert(alpha,0,0.)
 
 # x = mean_energy
 # y = alpha
@@ -114,11 +114,12 @@ for i in range(len(alpha)):
 # c[x.size-1] = (2*dx1[x.size-1]+dx1[x.size-2])/(dx1[x.size-1]*(dx1[x.size-1]+dx1[x.size-2]))
 # yprime[x.size-1] = a[x.size-1]*y[x.size-3] + b[x.size-1]*y[x.size-2] + c[x.size-1]*y[x.size-1]
 
-# D_Path = os.path.expandvars('${ZAPDIR}/src/materials/')
-# f = D_Path + "td_argon_mean_en.txt"
-# with open(f,'w') as write_file:
-#     for i in range(0,nEf):
-#         write_file.write('{0:.18e} {1:.18e} {2:.18e}\n'.format(mean_energy[i], alpha[i], yprime[i]))
+D_Path = os.path.expandvars('${ZAPDIR}/src/materials/')
+f = D_Path + "td_argon_mean_en.txt"
+with open(f,'w') as write_file:
+    for i in range(0,nEf):
+        write_file.write('{0:.18e} {1:.18e}\n'.format(mean_energy[i], alpha[i]))
+        # write_file.write('{0:.18e} {1:.18e} {2:.18e}\n'.format(mean_energy[i], alpha[i], yprime[i]))
 
 # t_vars = ['kAr','alpha']
 # file_list = [D_Path + t_var + '_LFA.txt' for t_var in t_vars]
