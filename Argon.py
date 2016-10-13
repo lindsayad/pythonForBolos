@@ -20,6 +20,8 @@ tdArray = np.zeros(nEf)
 mu = np.zeros(nEf)
 Diff = np.zeros(nEf)
 alpha = np.zeros(nEf)
+alphaEx = np.zeros(nEf)
+alphaEl = np.zeros(nEf)
 eta = np.zeros(nEf)
 mean_energy = np.zeros(nEf)
 kArIz = np.zeros(nEf)
@@ -31,7 +33,6 @@ tdArray[0] = EStart/(N*1.0e-21)
 for i in range(0,nEf-1):
     EArray[i+1]=EArray[i]*mult
     tdArray[i+1]=EArray[i+1]/(N*1.0e-21)
-    
 
 # Set-up the electron energy grid we want to compute the electron
 # energy distribution on
@@ -62,28 +63,31 @@ for i in range(0,nEf):
     kArIz[i] = boltzmann.rate(f,"Ar -> Ar^+")
     kArEx[i] = boltzmann.rate(f,"Ar -> Ar*(11.5eV)")
     alpha[i] = 1.0/(mu[i]*En)*(xAr*kArIz[i])
+    alphaEx[i] = 1.0/(mu[i]*En)*(xAr*kArEx[i])
     for target,proc in boltzmann.iter_elastic():
         kArEl[i] = boltzmann.rate(f,proc)
-
-# plt.plot(tdArray,kArIz,label='Ionization')
-# plt.plot(tdArray,kArEx,label='Excitation')
-# plt.plot(tdArray,kArEl,label='Elastic')
-# plt.plot(mean_energy,kArIz,label='Ionization')
-# plt.plot(mean_energy,kArEx,label='Excitation')
-# plt.plot(mean_energy,kArEl,label='Elastic')
-# plt.yscale('log')
-# plt.xscale('log')
-# plt.legend(loc=0)
-# plt.xlim(4,np.max(tdArray))
-# plt.ylim(1e-30,1e-12)
-# plt.show()
+    alphaEl[i] = 1.0/(mu[i]*En)*(xAr*kArEl[i])
 
 for i in range(len(alpha)):
-    if alpha[i] < 1e-15:
+    if alpha[i] < 1e-4:
         alpha[i] = 0.
+    if alphaEx[i] < 1e-4:
+        alphaEx[i] = 0.
+    if alphaEl[i] < 1e04:
+        alphaEl[i] = 0.
 
-mean_energy = np.insert(mean_energy,0,0.)
-alpha = np.insert(alpha,0,0.)
+# mean_energy = np.insert(mean_energy,0,0.)
+# alpha = np.insert(alpha,0,0.)
+# alphaEx = np.insert(alphaEx,0,0.)
+# alphaEl = np.insert(alphaEl,0,0.)
+
+D_Path = os.path.expandvars('/home/lindsayad/bolos/')
+f = D_Path + "td_argon_mean_en.txt"
+with open(f,'w') as write_file:
+    for i in range(0,nEf):
+        write_file.write('{0:.18e} {1:.18e} {2:.18e} {3:.18e} {4:.18e} {5:.18e}\n'.format(mean_energy[i], alpha[i], alphaEx[i], alphaEl[i], mu[i], Diff[i]))
+    write_file.closed
+        # write_file.write('{0:.18e} {1:.18e} {2:.18e}\n'.format(mean_energy[i], alpha[i], yprime[i]))
 
 # x = mean_energy
 # y = alpha
@@ -100,7 +104,7 @@ alpha = np.insert(alpha,0,0.)
 #     a[i] = -dx2[i]/(dx1[i]*(dx1[i]+dx2[i]))
 #     b[i] = (dx2[i]-dx1[i])/(dx1[i]*dx2[i])
 #     c[i] = dx1[i]/(dx2[i]*(dx1[i]+dx2[i]))
-#     yprime[i] = a[i]*y[i-1]+b[i]*y[i]+c[i]*y[i+1]                   
+#     yprime[i] = a[i]*y[i-1]+b[i]*y[i]+c[i]*y[i+1]
 
 # dx2[0] = x[1]-x[0]
 # a[0] = -(2*dx2[0]+dx2[1])/(dx2[0]*(dx2[0]+dx2[1]))
@@ -113,13 +117,6 @@ alpha = np.insert(alpha,0,0.)
 # b[x.size-1] = -(dx1[x.size-1]+dx1[x.size-2])/(dx1[x.size-1]*dx1[x.size-2])
 # c[x.size-1] = (2*dx1[x.size-1]+dx1[x.size-2])/(dx1[x.size-1]*(dx1[x.size-1]+dx1[x.size-2]))
 # yprime[x.size-1] = a[x.size-1]*y[x.size-3] + b[x.size-1]*y[x.size-2] + c[x.size-1]*y[x.size-1]
-
-D_Path = os.path.expandvars('${ZAPDIR}/src/materials/')
-f = D_Path + "td_argon_mean_en.txt"
-with open(f,'w') as write_file:
-    for i in range(0,nEf):
-        write_file.write('{0:.18e} {1:.18e}\n'.format(mean_energy[i], alpha[i]))
-        # write_file.write('{0:.18e} {1:.18e} {2:.18e}\n'.format(mean_energy[i], alpha[i], yprime[i]))
 
 # t_vars = ['kAr','alpha']
 # file_list = [D_Path + t_var + '_LFA.txt' for t_var in t_vars]
@@ -136,3 +133,16 @@ with open(f,'w') as write_file:
 #         for i in range(0,nEf):
 #             write_file.write('{0:.18e}, {1:.18e}\n'.format(EArray[i],t_vars[t_var][i]))
 #     write_file.closed
+
+# plt.plot(tdArray,kArIz,label='Ionization')
+# plt.plot(tdArray,kArEx,label='Excitation')
+# plt.plot(tdArray,kArEl,label='Elastic')
+# plt.plot(mean_energy,kArIz,label='Ionization')
+# plt.plot(mean_energy,kArEx,label='Excitation')
+# plt.plot(mean_energy,kArEl,label='Elastic')
+# plt.yscale('log')
+# plt.xscale('log')
+# plt.legend(loc=0)
+# plt.xlim(4,np.max(tdArray))
+# plt.ylim(1e-30,1e-12)
+# plt.show()
